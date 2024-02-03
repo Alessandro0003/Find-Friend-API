@@ -7,7 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build"
+    "build": "tsup src --out-dir build",
+    "migrate": "npx prisma migrate dev",
+    "prisma": "npx prisma studio",
+    "dock:up": "docker-compose up -d",
+    "dock:start": "docker-compose start",
+    "dock:stop": "docker-compose stop",
+    "dock:rm": "docker-compose down"
   },
   "keywords": [],
   "author": "",

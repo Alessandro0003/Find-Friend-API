@@ -9,3 +9,73 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+enum Ststus {
+  AVAILABLE
+  UNAVAILABLE
+  ADOPTED
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  address       String
+  phone         String
+  isAdmin       Role     @default(MEMBER)
+  created_at    DateTime @default(now())
+
+  org       Org?       @relation(fields: [org_id], references: [id])
+  org_id    String
+  donations Donation[]
+}
+
+model Pet {
+  id          String   @id @default(uuid())
+  name        String
+  species     String
+  breed       String
+  age         String
+  description String
+  created_at  DateTime @default(now())
+
+  org_id    String
+  org       Org        @relation(fields: [org_id], references: [id])
+  donations Donation[]
+}
+
+model Donation {
+  id          String        @id @default(uuid())
+  petId       String
+  donorId     String
+  date        DateTime      @default(now())
+  status      Ststus        @default(AVAILABLE)
+  donor       User?         @relation(fields: [donorId], references: [id])
+  pet         Pet           @relation(fields: [petId], references: [id])
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  dontationId String
+  date        DateTime @default(now())
+  amount      Float
+  donation    Donation @relation(fields: [dontationId], references: [id])
+}
+
+model Org {
+  id            String @id @default(uuid())
+  name          String
+  email         String @unique
+  password_hash String
+  address       String
+  whatsapp      String
+  User          User[]
+  Pet           Pet[]
+}

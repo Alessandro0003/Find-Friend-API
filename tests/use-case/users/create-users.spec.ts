@@ -6,7 +6,7 @@ import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-user
 let usersRepository: InMemoryUsersRepository
 let sut: CreateUsersUseCases
 
-describe('Register Use Case', () => {
+describe('Register User in Use Case', () => {
 
     beforeEach(() => {
         usersRepository = new InMemoryUsersRepository()
